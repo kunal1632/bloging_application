@@ -4,16 +4,21 @@ import { Link, matchPath, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../../assets/logo.svg";
 import { IoMenu, IoClose } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../services/operations/authAPI";
 
 const navLinks = [
   { id: 1, name: "Home", path: "/" },
   { id: 2, name: "Create Blog", path: "/create-post" },
-  { id: 2, name: "My Blogs", path: "/my-blogs" },
-  { id: 3, name: "Profile", path: "/profile" },
+  { id: 3, name: "My Blogs", path: "/my-blogs" },
+  { id: 4, name: "Profile", path: "/profile" },
 ];
 
 const Navbar = () => {
   const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +28,10 @@ const Navbar = () => {
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout(navigate));
   };
   return (
     <header className="sticky top-0 z-[20] mx-auto flex w-full px-5 items-center justify-between border-b-[1px] border-gray-500 p-2 md:flex-nowrap flex-wrap">
@@ -36,16 +45,16 @@ const Navbar = () => {
       </Link>
 
       {/* nav bar links */}
-      <div className="hidden md:flex   w-full ">
+      <div className="hidden md:flex ml-40  w-full ">
         <div className="flex gap-5 w-full items-center justify-center">
           {navLinks.map((item) => (
-            <NavLink to={item.path}>
+            <NavLink to={item.path} key={item.id}>
               <p
                 className={`${
                   matchRoute(item?.path)
                     ? "text-primary font-semibold"
                     : " dark:text-white"
-                } cursor-pointer hover:scale-105 transition-all duration-200`}
+                } cursor-pointer hover:scale-105 transition-all duration-200 `}
               >
                 {item.name}
               </p>
@@ -55,19 +64,29 @@ const Navbar = () => {
 
         {/* buttons for logout, login and signup  */}
         {token ? (
-          <div></div>
+          <div>
+            <button
+              onClick={logoutHandler}
+              className="bg-gray-300 px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-20 flex items-center justify-center dark:bg-gray-200"
+            >
+              Logout
+            </button>
+          </div>
         ) : (
           <div className="flex items-center justify-center gap-x-4 ">
-            <div className="bg-gray-300 px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-20 flex items-center justify-center dark:bg-gray-200">
-              <Link to="/login">
-                <p className=" dark:text-black">Login</p>
-              </Link>
-            </div>
-            <div className="bg-primary px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-20 flex items-center justify-center">
-              <Link to="/signup">
-                <p className=" dark:text-black">Signup</p>
-              </Link>
-            </div>
+            <Link
+              to="/login"
+              className="bg-gray-300 px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-20 flex items-center justify-center dark:bg-gray-200"
+            >
+              <p className=" dark:text-black">Login</p>
+            </Link>
+
+            <Link
+              to="/signup"
+              className="bg-primary px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-20 flex items-center justify-center"
+            >
+              <p className=" dark:text-black">Signup</p>
+            </Link>
           </div>
         )}
       </div>
@@ -84,7 +103,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="flex flex-col items-center basis-full ">
           {navLinks.map((item) => (
-            <NavLink to={item.path}>
+            <NavLink to={item.path} key={item.id}>
               <p
                 className={`${
                   matchRoute(item?.path)
@@ -96,6 +115,34 @@ const Navbar = () => {
               </p>
             </NavLink>
           ))}
+
+          {token !== null && (
+            <div>
+              <button
+                onClick={logoutHandler}
+                className="bg-gray-300 px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-20 flex items-center justify-center dark:bg-gray-200"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+          {token === null && (
+            <div className="flex flex-col items-center justify-center gap-y-4 w-full mt-3">
+              <Link
+                to="/login"
+                className="bg-gray-300 px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-1/2 flex items-center justify-center dark:bg-gray-200"
+              >
+                <p className=" dark:text-black">Login</p>
+              </Link>
+
+              <Link
+                to="/signup"
+                className="bg-primary px-2 py-1 rounded-lg cursor-pointer hover:opacity-80 transition-all duration-200 text-black w-1/2 flex items-center justify-center"
+              >
+                <p className=" dark:text-black">Signup</p>
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </header>
