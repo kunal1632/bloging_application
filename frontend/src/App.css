@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 .spinner {
   width: 56px;
   height: 56px;
@@ -101,4 +105,59 @@
   100% {
     transform: scaleY(-1) rotate(-135deg);
   }
+}
+
+/* styles.css */
+
+/* ReactQuill Dark Mode Styles */
+/* styles.css */
+
+/* ReactQuill Dark Mode Styles */
+.dark .ql-container {
+  @apply bg-slate-950 text-white;
+}
+
+.dark .ql-toolbar {
+  @apply bg-slate-950 border-slate-600;
+}
+
+.dark .ql-toolbar .ql-picker,
+.dark .ql-toolbar .ql-stroke,
+.dark .ql-toolbar .ql-fill {
+  @apply text-white stroke-current;
+}
+
+.dark .ql-toolbar .ql-picker-options {
+  @apply bg-slate-900 border-gray-900 text-white;
+}
+
+.dark .ql-toolbar .ql-picker-label {
+  @apply text-white;
+}
+
+.dark .ql-toolbar .ql-picker-item {
+  @apply text-white;
+}
+
+.dark .ql-toolbar .ql-picker-item.ql-active,
+.dark .ql-toolbar .ql-picker-item:hover {
+  @apply bg-slate-900 text-white;
+}
+
+/* Additional styling for the heading selector */
+.dark .ql-toolbar .ql-picker.ql-header .ql-picker-label {
+  @apply text-white;
+}
+
+.dark .ql-toolbar .ql-picker.ql-header .ql-picker-options {
+  @apply bg-slate-900 border-slate-800 text-white;
+}
+
+.dark .ql-toolbar .ql-picker.ql-header .ql-picker-item {
+  @apply text-white;
+}
+
+.dark .ql-toolbar .ql-picker.ql-header .ql-picker-item.ql-active,
+.dark .ql-toolbar .ql-picker.ql-header .ql-picker-item:hover {
+  @apply text-blue-500 transition-all duration-200;
 }

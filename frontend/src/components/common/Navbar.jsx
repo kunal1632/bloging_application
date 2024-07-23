@@ -34,7 +34,7 @@ const Navbar = () => {
     dispatch(logout(navigate));
   };
   return (
-    <header className="sticky top-0 z-[20] mx-auto flex w-full px-5 items-center justify-between border-b-[1px] border-gray-500 p-2 md:flex-nowrap flex-wrap">
+    <header className="sticky top-0 z-[20] mx-auto flex w-full px-5 items-center justify-between border-b-[1px] border-gray-500 p-2 md:flex-nowrap flex-wrap dark:bg-slate-950">
       <Link to="/">
         <img
           src={logo}
@@ -54,7 +54,7 @@ const Navbar = () => {
                   matchRoute(item?.path)
                     ? "text-primary font-semibold"
                     : " dark:text-white"
-                } cursor-pointer hover:scale-105 transition-all duration-200 `}
+                } cursor-pointer hover:scale-105 transition-transform duration-200 `}
               >
                 {item.name}
               </p>

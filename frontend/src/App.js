@@ -13,7 +13,7 @@ import MyBlogs from "./pages/MyBlogs";
 
 function App() {
   return (
-    <div className="w-screen min-h-screen flex flex-col font-inter bg-white_bg dark:bg-slate-950 ">
+    <div className="w-screen min-h-screen flex flex-col font-inter bg-white_bg dark:bg-slate-950 overflow-x-clip">
       <Navbar />
       <Routes>
         <Route

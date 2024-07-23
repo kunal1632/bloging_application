@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+const userRoutes = require("./routes/User");
+const profileRoutes = require("./routes/Profile");
+const blogRoutes = require("./routes/Blog");
+
 const database = require("./config/database");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const cors = require("cors");
@@ -31,6 +35,9 @@ app.use(
 cloudinaryConnect();
 
 // routes
+app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/profile", profileRoutes);
+app.use("/api/v1/blog", blogRoutes);
 
 // default route
 app.get("/", (req, res) => {
