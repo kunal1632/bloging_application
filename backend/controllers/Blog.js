@@ -125,6 +125,7 @@ exports.deleteBlog = async (req, res) => {
   try {
     // fetch blog id
     const { blogId } = req.body;
+    console.log(req.body);
     // validation
     const blog = await Blog.findById(blogId);
     if (!blog) {
@@ -145,6 +146,7 @@ exports.deleteBlog = async (req, res) => {
       message: "Blog has been deleted",
     });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Some error while deleting the blog",

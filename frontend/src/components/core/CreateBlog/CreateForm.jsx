@@ -57,17 +57,17 @@ const CreateForm = () => {
   useEffect(() => {
     if (editBlog) {
       setValue("blogTitle", blog.title);
-      setValue("blogText", blog.text);
+      setValue("blogText", blog.blogText);
       setValue("summary", blog.summary);
       setValue("thumbnail", blog.thumbnail);
     }
   }, []);
 
-  const idFormUpdated = () => {
+  const isFormUpdated = () => {
     const currentValues = getValues();
     if (
       currentValues.blogTitle !== blog.title ||
-      currentValues.blogText !== blog.text ||
+      currentValues.blogText !== blog.blogText ||
       currentValues.summary !== blog.summary ||
       currentValues.thumbnail !== blog.thumbnail
     ) {
@@ -82,7 +82,7 @@ const CreateForm = () => {
       return;
     }
     if (editBlog) {
-      if (idFormUpdated()) {
+      if (isFormUpdated()) {
         const currentValues = getValues();
         const formData = new FormData();
         formData.append("blogId", blog?._id);
@@ -102,29 +102,30 @@ const CreateForm = () => {
         const result = await updateBlog(formData, token);
         setLoading(false);
         if (result) {
-          dispatch(setBlog(result));
           navigate(`/post/${result._id}`);
-        } else {
-          toast.error("There are no changes in the blog");
+          return;
         }
+      } else {
+        toast.error("There are no changes in the blog");
+        return;
       }
-    }
+    } else {
+      // new blog
+      const formData = new FormData();
+      formData.append("title", data.blogTitle);
+      formData.append("blogText", data.blogText);
+      formData.append("summary", data.summary);
+      formData.append("thumbnailImage", data.thumbnail);
 
-    // new blog
-    const formData = new FormData();
-    formData.append("title", data.blogTitle);
-    formData.append("blogText", data.blogText);
-    formData.append("summary", data.summary);
-    formData.append("thumbnailImage", data.thumbnail);
-
-    setLoading(true);
-    const result = await createBlog(formData, token);
-    console.log(result);
-    if (result) {
-      dispatch(setBlog(result));
-      navigate(`/post/${result?._id}`);
+      setLoading(true);
+      const result = await createBlog(formData, token);
+      console.log(result);
+      if (result) {
+        dispatch(setBlog(result));
+        navigate(`/post/${result?._id}`);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { getAllBlogs } from "../services/operations/blogAPI";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BlogCard from "../components/core/Home/BlogCard";
 import { useNavigate } from "react-router-dom";
+import { setLoading } from "../slices/blogSlice";
 
 const Home = () => {
   const { token } = useSelector((state) => state.auth);
   const [allBlogs, setAllBlogs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { loading } = useSelector((state) => state.blog);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
+      dispatch(setLoading(true));
       try {
         const res = await getAllBlogs(token);
         setAllBlogs(res);
       } catch (error) {
         console.log("Error while fetching blogs");
       }
-      setLoading(false);
+      dispatch(setLoading(false));
     })();
   }, []);
 
@@ -32,7 +34,9 @@ const Home = () => {
   return (
     <div className="w-11/12 md:w-2/3  mx-auto">
       <div className="mt-10 flex flex-col gap-2">
-        <h className="text-2xl md:text-4xl dark:text-white ">Blog Feed</h>
+        <h className="text-2xl md:text-4xl dark:text-white font-semibold">
+          Blog Feed
+        </h>
         <p className="  text-slate-500 ">
           Explore blogs writen by other people
         </p>

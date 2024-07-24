@@ -58,7 +58,7 @@ export const updateBlog = async (data, token) => {
       throw new Error("Could not update the blog");
     }
     toast.success("Updated blog successfully");
-    result = response?.data?.blog;
+    result = response?.data?.success;
   } catch (error) {
     console.log("UPDATE BLOG API ERROR......", error);
     toast.error(error.message);
@@ -67,10 +67,10 @@ export const updateBlog = async (data, token) => {
   return result;
 };
 
-export const deleteBlog = async (data, navigate, token) => {
+export const deleteBlog = async (blogId, navigate, token) => {
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector("DELETE", DELETE_BLOG_API, data, {
+    const response = await apiConnector("DELETE", DELETE_BLOG_API, blogId, {
       Authorization: `Bearer ${token}`,
     });
     console.log("DELETE BLOG API RESPONSE.......", response);

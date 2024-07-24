@@ -4,16 +4,18 @@ import { profileEndpoints } from "../apis";
 
 const { GET_USER_DATA_API, DELETE_USER_API } = profileEndpoints;
 
-export const getUserData = async () => {
+export const getUserData = async (token) => {
   const toastId = toast.loading("Loading...");
-  let result = [];
+  let result;
   try {
-    const response = await apiConnector("GET", GET_USER_DATA_API);
+    const response = await apiConnector("GET", GET_USER_DATA_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
     console.log("GET_USER_DATA_API RESPONSE.......", response);
     if (!response?.data?.success) {
       throw new Error("Could not Fetch User Data");
     }
-    result = response?.data?.userData;
+    result = response?.data?.data;
   } catch (error) {
     console.log("GET_USER_DATA_API ERROR.......", error);
     toast.error(error.message);
