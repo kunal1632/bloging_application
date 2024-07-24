@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setBlog } from "../../../slices/blogSlice";
@@ -7,6 +7,36 @@ import toast from "react-hot-toast";
 import UploadThumbnail from "./UploadThumbnail";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { createBlog, updateBlog } from "../../../services/operations/blogAPI";
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link"],
+    ["clean"],
+  ],
+};
+
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+];
 
 const CreateForm = () => {
   const { token } = useSelector((state) => state.auth);
@@ -20,6 +50,7 @@ const CreateForm = () => {
     handleSubmit,
     setValue,
     getValues,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -47,13 +78,16 @@ const CreateForm = () => {
   };
 
   const onSubmit = async (data) => {
+    if (getValues("blogText") === "<p><br></p>") {
+      return;
+    }
     if (editBlog) {
       if (idFormUpdated()) {
         const currentValues = getValues();
         const formData = new FormData();
         formData.append("blogId", blog?._id);
         if (currentValues.blogTitle !== blog.title) {
-          formData.append("blogTitle", data.blogTitle);
+          formData.append("title", data.blogTitle);
         }
         if (currentValues.blogText !== blog.text) {
           formData.append("blogText", data.blogText);
@@ -62,32 +96,35 @@ const CreateForm = () => {
           formData.append("summary", data.summary);
         }
         if (currentValues.thumbnail !== blog.thumbnail) {
-          formData.append("thumbnail", data.thumbnail);
+          formData.append("thumbnailImage", data.thumbnail);
         }
-        // setLoading(true);
-        // const result = await editBlog(formData, token);
-        // setLoading(false);
-        // if (result) {
-        //   dispatch(setBlog(result));
-        // } else {
-        //   toast.error("There are no changes in the blog");
-        // }
+        setLoading(true);
+        const result = await updateBlog(formData, token);
+        setLoading(false);
+        if (result) {
+          dispatch(setBlog(result));
+          navigate(`/post/${result._id}`);
+        } else {
+          toast.error("There are no changes in the blog");
+        }
       }
     }
 
     // new blog
     const formData = new FormData();
-    formData.append("blogTitle", data.blogTitle);
+    formData.append("title", data.blogTitle);
     formData.append("blogText", data.blogText);
     formData.append("summary", data.summary);
-    formData.append("thumbnail", data.thumbnail);
+    formData.append("thumbnailImage", data.thumbnail);
 
-    // setLoading(true);
-    // const result = await createBlog(formData, token);
-    // if (result) {
-    //   dispatch(setBlog(result));
-    // }
-    // setLoading(false);
+    setLoading(true);
+    const result = await createBlog(formData, token);
+    console.log(result);
+    if (result) {
+      dispatch(setBlog(result));
+      navigate(`/post/${result?._id}`);
+    }
+    setLoading(false);
   };
 
   return (
@@ -127,7 +164,43 @@ const CreateForm = () => {
         editData={editBlog ? blog.thumbnail : null}
       />
 
-      <ReactQuill />
+      <div>
+        <Controller
+          name="blogText"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <ReactQuill
+              {...field}
+              modules={modules}
+              formats={formats}
+              onChange={(content, delta, source, editor) => {
+                field.onChange(editor.getHTML());
+              }}
+            />
+          )}
+        />
+        {(errors.blogText || getValues("blogText") === "<p><br></p>") && (
+          <span className="ml-2 text-sm text-red-500">Content is required</span>
+        )}
+      </div>
+      <div className="flex justify-center md:justify-end gap-5 items-center">
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/");
+          }}
+          className=" bg-slate-300 text-black md:w-24 w-1/2 rounded-lg  px-5 py-2 cursor-pointer hover:opacity-80 transition-all duration-200 md:text-lg"
+        >
+          Cancel
+        </button>
+        <button
+          className=" bg-primary rounded-lg md:w-24 w-1/2 py-2 text-white cursor-pointer hover:opacity-80 transition-all duration-200 md:text-lg"
+          type="submit"
+        >
+          Post
+        </button>
+      </div>
     </form>
   );
 };

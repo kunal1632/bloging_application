@@ -4,7 +4,6 @@ const { auth } = require("../middlewares/auth");
 
 // import required controllers
 const { login, signup, changePassword } = require("../controllers/Auth");
-const { getUserData, deleteUser } = require("../controllers/User");
 
 // routes for login signup and password change
 
@@ -16,11 +15,5 @@ router.post("/signup", signup);
 
 // route for change password
 router.post("/changepassword", auth, changePassword);
-
-// getuser details
-router.get("/userdetials", auth, getUserData);
-
-// deleteuser route
-router.delete("/deleteuser", auth, deleteUser);
 
 module.exports = router;

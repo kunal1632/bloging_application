@@ -83,7 +83,7 @@ const UploadThumbnail = ({
           </p>
           {errors[name] && (
             <span className="ml-2 text-sm text-red-500 tracking-wide">
-              {name} is required
+              Thumbnail is required
             </span>
           )}
         </div>

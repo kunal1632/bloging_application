@@ -34,7 +34,7 @@ const Navbar = () => {
     dispatch(logout(navigate));
   };
   return (
-    <header className="sticky top-0 z-[20] mx-auto flex w-full px-5 items-center justify-between border-b-[1px] border-gray-500 p-2 md:flex-nowrap flex-wrap dark:bg-slate-950">
+    <header className="sticky top-0 z-[20] mx-auto flex w-full px-5 items-center justify-between border-b-[1px] border-gray-500 p-2 md:flex-nowrap flex-wrap dark:bg-slate-950 bg-white_bg">
       <Link to="/">
         <img
           src={logo}

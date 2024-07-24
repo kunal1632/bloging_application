@@ -61,3 +61,23 @@ export function logout(navigate) {
     navigate("/login");
   };
 }
+
+export async function changePassword(data, token) {
+  const toasId = toast.loading("Loading...");
+
+  try {
+    const response = await apiConnector("POST", CHANGEPASSWORD_API, data, {
+      Authorization: `Bearer ${token}`,
+    });
+    console.log("CHANGE PASSWORD API RESPONSE........", response);
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+    toast.success("Password changed successfully");
+  } catch (error) {
+    console.log("CHANGE PASSWORD ERROR.....", error);
+    toast.error("Something went wrong");
+  }
+
+  toast.dismiss(toasId);
+}

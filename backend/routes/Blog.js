@@ -13,7 +13,7 @@ const {
 router.post("/create-blog", auth, createBlog);
 
 //  update blog
-router.put("/update-blog", auth, updateBlog);
+router.post("/update-blog", auth, updateBlog);
 
 // for creating new blog
 router.get("/get-all-blog", auth, getAllBlog);

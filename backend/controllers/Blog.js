@@ -7,8 +7,8 @@ exports.createBlog = async (req, res) => {
   try {
     // fetch data from body
     const { title, blogText, summary } = req.body;
-    const thumbnail = req.files.thumnailImage;
-    const { userId } = req.user.id;
+    const thumbnail = req.files.thumbnailImage;
+    const userId = req.user.id;
 
     //   data validation
     if (!title || !blogText || !summary || !thumbnail) {
@@ -32,7 +32,6 @@ exports.createBlog = async (req, res) => {
       creator: userId,
       thumbnail: thumnailImage.secure_url,
     });
-    console.log(newBlog);
 
     //   add blog to the user model
     await User.findByIdAndUpdate(
@@ -47,9 +46,10 @@ exports.createBlog = async (req, res) => {
       data: newBlog,
     });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Could not create a blog",
     });
   }
 };
@@ -112,6 +112,7 @@ exports.getAllBlog = async (req, res) => {
       data: allBlogs,
     });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Cannot fetch all blog",

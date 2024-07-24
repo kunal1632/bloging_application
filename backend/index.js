@@ -6,6 +6,7 @@ const profileRoutes = require("./routes/Profile");
 const blogRoutes = require("./routes/Blog");
 
 const database = require("./config/database");
+const cookieParser = require("cookie-parser");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -18,6 +19,7 @@ database.connect();
 
 // middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: "*",

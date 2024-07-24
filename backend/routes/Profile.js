@@ -3,7 +3,7 @@ const router = express.Router();
 const { auth } = require("../middlewares/auth");
 
 // import required controllers
-const { getUserData, deleteUser } = require("../controllers/User");
+const { getUserData, deleteUser } = require("../controllers/Profile");
 
 // getuser details
 router.get("/userdetials", auth, getUserData);
