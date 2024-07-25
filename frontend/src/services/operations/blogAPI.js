@@ -99,14 +99,9 @@ export const updateBlog = async (data, token) => {
 export const deleteBlog = async (blogId, navigate, token) => {
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector(
-      "DELETE",
-      DELETE_BLOG_API,
-      { blogId },
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
+    const response = await apiConnector("DELETE", DELETE_BLOG_API, blogId, {
+      Authorization: `Bearer ${token}`,
+    });
     console.log("DELETE BLOG API RESPONSE.......", response);
     if (!response.data.success) {
       throw new Error("Could not delete the blog");

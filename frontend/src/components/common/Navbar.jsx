@@ -101,15 +101,19 @@ const Navbar = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="flex flex-col items-center basis-full ">
+        <div className="flex flex-col items-center basis-full gap-2 mt-2">
           {navLinks.map((item) => (
-            <NavLink to={item.path} key={item.id}>
+            <NavLink
+              to={item.path}
+              key={item.id}
+              className="bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 w-full flex items-center justify-center py-1 rounded-lg  cursor-pointer hover:bg-slate-300 transition-all duration-200"
+            >
               <p
                 className={`${
                   matchRoute(item?.path)
                     ? "text-primary font-semibold"
                     : " dark:text-white"
-                } cursor-pointer hover:scale-105 transition-all duration-200`}
+                }`}
               >
                 {item.name}
               </p>

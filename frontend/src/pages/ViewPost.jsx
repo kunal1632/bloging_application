@@ -4,7 +4,6 @@ import { getBlogById } from "../services/operations/blogAPI";
 import { useSelector } from "react-redux";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { formattedDate } from "../utils/formatDate";
-import Footer from "../components/common/Footer";
 
 const ViewPost = () => {
   const { blogId } = useParams();
@@ -76,8 +75,6 @@ const ViewPost = () => {
       <div className="flex justify-center my-3 mb-5">
         <p className="text-slate-500">End of the Blog</p>
       </div>
-
-      <Footer />
     </div>
   );
 };

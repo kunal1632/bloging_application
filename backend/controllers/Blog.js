@@ -152,7 +152,6 @@ exports.deleteBlog = async (req, res) => {
   try {
     // fetch blog id
     const { blogId } = req.body;
-    console.log(req.body);
     // validation
     const blog = await Blog.findById(blogId);
     if (!blog) {
