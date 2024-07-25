@@ -1,11 +1,11 @@
 import { apiConnector } from "../apiconnector";
 import toast from "react-hot-toast";
 import { profileEndpoints } from "../apis";
+import { logout } from "./authAPI";
 
 const { GET_USER_DATA_API, DELETE_USER_API } = profileEndpoints;
 
 export const getUserData = async (token) => {
-  const toastId = toast.loading("Loading...");
   let result;
   try {
     const response = await apiConnector("GET", GET_USER_DATA_API, null, {
@@ -20,23 +20,26 @@ export const getUserData = async (token) => {
     console.log("GET_USER_DATA_API ERROR.......", error);
     toast.error(error.message);
   }
-  toast.dismiss(toastId);
+
   return result;
 };
 
-export const deleteUser = async (navigate) => {
-  const toastId = toast.loading("Loading...");
+export const deleteUser = (token, navigate) => {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const response = await apiConnector("DELETE", DELETE_USER_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
+      console.log("DELETE_USER_API RESPONSE.......", response);
+      if (!response?.data?.success) {
+        throw new Error("Could not Fetch User Data");
+      }
 
-  try {
-    const response = await apiConnector("GET", DELETE_USER_API);
-    console.log("DELETE_USER_API RESPONSE.......", response);
-    if (!response?.data?.success) {
-      throw new Error("Could not Fetch User Data");
+      dispatch(logout(navigate));
+    } catch (error) {
+      console.log("DELETE_USER_API ERROR.......", error);
     }
-    navigate("/login");
-  } catch (error) {
-    console.log("DELETE_USER_API ERROR.......", error);
-    toast.error(error.message);
-  }
-  toast.dismiss(toastId);
+    toast.dismiss(toastId);
+  };
 };

@@ -6,6 +6,7 @@ const {
   createBlog,
   updateBlog,
   getAllBlog,
+  getBlogById,
   deleteBlog,
 } = require("../controllers/Blog");
 
@@ -15,10 +16,13 @@ router.post("/create-blog", auth, createBlog);
 //  update blog
 router.post("/update-blog", auth, updateBlog);
 
-// for creating new blog
+// fetch all blogs
 router.get("/get-all-blog", auth, getAllBlog);
 
-// for creating new blog
+// fetch blog by id
+router.post("/get-blog", auth, getBlogById);
+
+// delete a blog
 router.delete("/delete-blog", auth, deleteBlog);
 
 module.exports = router;

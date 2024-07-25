@@ -153,7 +153,7 @@ exports.changePassword = async (req, res) => {
     // update password in db
     const updatedUserDetails = await User.findByIdAndUpdate(
       req.user.id,
-      { password: hashedPassword },
+      { password: hashedNewPassword },
       { new: true }
     );
 

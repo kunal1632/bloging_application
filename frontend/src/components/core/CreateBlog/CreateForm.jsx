@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setBlog } from "../../../slices/blogSlice";
+import { setBlog, setEditBlog } from "../../../slices/blogSlice";
 import toast from "react-hot-toast";
 import UploadThumbnail from "./UploadThumbnail";
 import ReactQuill from "react-quill";
@@ -119,7 +119,7 @@ const CreateForm = () => {
 
       setLoading(true);
       const result = await createBlog(formData, token);
-      console.log(result);
+      console.log("result", result);
       if (result) {
         dispatch(setBlog(result));
         navigate(`/post/${result?._id}`);
@@ -189,6 +189,8 @@ const CreateForm = () => {
         <button
           type="button"
           onClick={() => {
+            dispatch(setBlog(null));
+            dispatch(setEditBlog(false));
             navigate("/");
           }}
           className=" bg-slate-300 text-black md:w-24 w-1/2 rounded-lg  px-5 py-2 cursor-pointer hover:opacity-80 transition-all duration-200 md:text-lg"

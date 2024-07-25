@@ -1,5 +1,4 @@
 import React from "react";
-import logo_name from "../../assets/logo_name.svg";
 
 const Footer = () => {
   return (

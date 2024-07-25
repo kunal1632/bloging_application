@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Footer from "../components/common/Footer";
+
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";

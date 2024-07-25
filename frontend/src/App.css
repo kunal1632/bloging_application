@@ -161,3 +161,20 @@ body {
 .dark .ql-toolbar .ql-picker.ql-header .ql-picker-item:hover {
   @apply text-blue-500 transition-all duration-200;
 }
+
+/* In your global CSS file */
+.dark .prose {
+  color: #ffffff; /* Ensure text color is white for dark mode */
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3 {
+  color: #ffffff; /* Heading colors for dark mode */
+}
+
+.dark .prose a {
+  color: #60a5fa; /* Link color for dark mode */
+}
+
+/* Other custom dark mode styles as needed */

@@ -49,7 +49,7 @@ function App() {
           }
         />
         <Route
-          path="/post/:id"
+          path="/post/:blogId"
           element={
             <PrivateRoute>
               <ViewPost />

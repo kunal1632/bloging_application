@@ -26,7 +26,7 @@ const MyBlogs = () => {
       }
       setLoading(false);
     })();
-  }, [loadData]);
+  }, [loadData, token]);
 
   const handleEdit = (blog) => {
     dispatch(setBlog(blog));
@@ -44,6 +44,13 @@ const MyBlogs = () => {
     }
     setLoading(false);
   };
+  if (loading) {
+    return (
+      <div className="flex w-full h-[calc(100vh-4rem)] items-center justify-center">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-11/12 md:w-2/3 mx-auto">
@@ -62,9 +69,9 @@ const MyBlogs = () => {
             <p className="text-2xl dark:text-white">No Blogs Avaliable</p>
           </div>
         ) : (
-          <div className="flex  flex-col items-center gap-5  w-full mt-5">
+          <div className="flex  flex-col items-center gap-5  w-full mt-5 mb-5">
             {myBlogs?.map((blog) => (
-              <div className="w-full">
+              <div className="w-full" key={blog._id}>
                 <div className=" justify-end w-full flex gap-5 pr-3">
                   <button
                     className="flex gap-1 items-center justify-center text-primary hover:text-opacity-70 transition-all duration-200 cursor-pointer"

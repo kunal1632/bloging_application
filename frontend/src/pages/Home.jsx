@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getAllBlogs } from "../services/operations/blogAPI";
 import { useDispatch, useSelector } from "react-redux";
 import BlogCard from "../components/core/Home/BlogCard";
-import { useNavigate } from "react-router-dom";
 import { setLoading } from "../slices/blogSlice";
 
 const Home = () => {
@@ -22,7 +21,7 @@ const Home = () => {
       }
       dispatch(setLoading(false));
     })();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (
@@ -34,15 +33,15 @@ const Home = () => {
   return (
     <div className="w-11/12 md:w-2/3  mx-auto">
       <div className="mt-10 flex flex-col gap-2">
-        <h className="text-2xl md:text-4xl dark:text-white font-semibold">
+        <h1 className="text-2xl md:text-4xl dark:text-white font-semibold">
           Blog Feed
-        </h>
+        </h1>
         <p className="  text-slate-500 ">
           Explore blogs writen by other people
         </p>
       </div>
 
-      <div className="w-full">
+      <div className="w-full mb-5">
         {allBlogs.length === 0 ? (
           <div className="w-full h-full flex items-center mt-36 justify-center">
             <p className="text-2xl dark:text-white">No Blogs Avaliable</p>

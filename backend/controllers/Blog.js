@@ -120,6 +120,33 @@ exports.getAllBlog = async (req, res) => {
   }
 };
 
+// get blog by id
+exports.getBlogById = async (req, res) => {
+  try {
+    // fetch blogid
+    const { blogId } = req.body;
+    console.log(blogId);
+    // get blog data from db
+    const blog = await Blog.findById(blogId).populate("creator").exec();
+    if (!blog) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Blog not found" });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Blog successfuly fetched",
+      data: blog,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Cannot fetch blog",
+    });
+  }
+};
+
 // delete a blog
 exports.deleteBlog = async (req, res) => {
   try {

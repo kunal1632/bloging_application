@@ -8,7 +8,10 @@ exports.getUserData = async (req, res) => {
     const id = req.user.id;
 
     // get user data
-    const userData = await User.findById(id).populate("blogs").exec();
+    const userData = await User.findById(id)
+      .select("-password")
+      .populate("blogs")
+      .exec();
 
     return res.status(200).json({
       success: true,
@@ -39,8 +42,8 @@ exports.deleteUser = async (req, res) => {
 
     // delete blogs
     const allUserBlogs = userDetails.blogs;
-    for (blog in allUserBlogs) {
-      await Blog.findByIdAndDelete(blog);
+    for (const blog of allUserBlogs) {
+      await Blog.findByIdAndDelete(blog._id);
     }
 
     // delete user
@@ -49,6 +52,7 @@ exports.deleteUser = async (req, res) => {
       .status(200)
       .json({ sucess: true, message: "User has been deleted" });
   } catch (error) {
+    console.log(error.message);
     return res
       .status(500)
       .json({ success: false, message: "Cannot delete the user" });
